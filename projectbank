@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -43,6 +42,14 @@ void member()
     printf("\t****USERNAME DETAILS****");
     p->balance=0.00;
     members[count++] = p;
+        FILE *fptr=fopen("bank.txt","a");
+    if(fptr!=NULL)
+    {
+        fprintf(fptr,"name:%s\ndob:%d/%d/%d\ngender:%s\naccount num:%lld \nphone num:%lld \nuseremail:%s \nusername::%s \npassword:%d \nbalance:%.2f\n",p->name,p->date,p->month,p->year,p->gender,
+                p->accountno, p->phoneno, p->mailid, p->username,p->password, p->balance);
+        fclose(fptr);
+    }
+
     printf("\nDETAILS ENTERED SUCCESSFULLY\n");
     printf("\n\tDISPLAY OF INFORMATION ENTERED");
     printf("\nNAME:%s\nDOB:%d/%d/%d\nGENDER:%s\nACCOUNTNO:%lld\nPHONE NUM:%lld\nMAILID:%s\nUSERNAME:%s\nPASSWORD:%d",p->name,p->date,p->month,p->year,p->gender,p->accountno,p->phoneno,p->mailid,p->username,p->password);
@@ -105,8 +112,16 @@ void depositamount(struct Register *user)
     scanf("%d",&dbt);
     user->balance+=dbt;
     printf("\n THE TOTAL AMOUNT AFTER DEPOSITTED:RS%.2f:",user->balance);
-
+        FILE *fptr;
+        fptr=fopen("bank.txt","a");
+    if(fptr!= NULL)
+    {
+        fprintf(fptr,"\nUSERNAME:%s \nDEPOSITED AMOUNT:%d \nBALANCE:%.2f\n",user->username,dbt,user->balance);
+        fclose(fptr);
+    }
 }
+
+
 void withdrawamount(struct Register *user)
 {
     int wdamnt;
@@ -121,6 +136,13 @@ void withdrawamount(struct Register *user)
         user->balance-=wdamnt;
     printf("THE TOTAL AMOUNT AFETR WITHDRAW:RS%.2f",user->balance);
     }
+    FILE *fptr;
+    fptr=fopen("bank.txt","a");
+        if(fptr!=NULL)
+        {
+            fprintf(fptr,"\nUSERNAME:%s \nAMOUNT WITHDRAWAL:%d \nBALANCE:%.2f\n",user->username,wdamnt,user->balance);
+            fclose(fptr);
+        }
 }
 int main()
 {
