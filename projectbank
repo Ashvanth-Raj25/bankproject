@@ -1,1 +1,150 @@
-hii
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct Register
+{
+    char name[30];
+    int date,month,year;
+    char gender[10];
+    long long int accountno,phoneno;
+    char mailid[30];
+    char username[30];
+    int password;
+     float balance;
+
+
+};
+struct Register*members[100];
+int count =0;
+void member()
+{
+    struct Register *p=(struct Register*)malloc(sizeof (struct Register));
+    printf("enter the name:");
+    scanf("%s",&p->name);
+    printf("enter the Birth Date:");
+    scanf("%d",&p->date);
+     printf("enter the Birth month:");
+    scanf("%d",&p->month);
+     printf("enter the Birth year:");
+    scanf("%d",&p->year);
+    printf("enter the Gender:");
+    scanf("%s",&p->gender);
+    printf("enter the account number:");
+    scanf("%lld",&p->accountno);
+    printf("enter the phone number:");
+    scanf("%lld",&p->phoneno);
+    printf("enter the maild:");
+    scanf("%s",&p->mailid);
+    printf("enter the username:");
+    scanf("%s",&p->username);
+    printf("enter the password:");
+    scanf("%d",&p->password);
+    printf("\t****USERNAME DETAILS****");
+    p->balance=0.00;
+    members[count++] = p;
+    printf("\nDETAILS ENTERED SUCCESSFULLY\n");
+    printf("\n\tDISPLAY OF INFORMATION ENTERED");
+    printf("\nNAME:%s\nDOB:%d/%d/%d\nGENDER:%s\nACCOUNTNO:%lld\nPHONE NUM:%lld\nMAILID:%s\nUSERNAME:%s\nPASSWORD:%d",p->name,p->date,p->month,p->year,p->gender,p->accountno,p->phoneno,p->mailid,p->username,p->password);
+
+}
+void login()
+{
+    char uname[20];
+    int pword,option;
+    printf("enter the username:");
+    scanf("%s",&uname);
+    printf("enter the password:");
+    scanf("%d",&pword);
+    for (int i=0;i<count;i++)
+    {
+    if ((strcmp(members[i]->username, uname) == 0) && (members[i]->password == pword))
+    {
+        printf("PLEASE SELECT THE OPTION");
+        printf("\n1.viewinfo\n2.deposit amount\n3.withdraw\n4.logout");
+        printf("\n please enter the option:");
+        scanf("%d",&option);
+        switch (option)
+        {
+     case 1:
+        viewmember(members[i]);
+        break;
+     case 2:
+        depositamount(members[i]);
+        break;
+     case 3:
+        withdrawamount(members[i]);
+        break;
+     case 4:
+        login();
+        break;
+        }
+    }
+        else
+            {
+            printf("YOU ARE NOT REGISTERED \n\tPLEASE REGISTER");
+
+            }
+    }
+}
+void viewmember(struct Register *user)
+ {
+    printf("\n--- ACCOUNT DETAILS ---\n");
+    printf("Name: %s\n",user->name);
+    printf("DOB: %d/%d/%d\n", user->date,user->month,user->year);
+    printf("Gender: %s\n",user->gender);
+    printf("Account No: %lld\n",user->accountno);
+    printf("Phone No: %lld\n",user->phoneno);
+    printf("Email: %s\n",user->mailid);
+    printf("Username: %s\n",user->username);
+ }
+void depositamount(struct Register *user)
+{
+    int dbt=0;
+    printf("ENTER THE AMOUNT TO BE DEPOSITED:");
+    scanf("%d",&dbt);
+    user->balance+=dbt;
+    printf("\n THE TOTAL AMOUNT AFTER DEPOSITTED:RS%.2f:",user->balance);
+
+}
+void withdrawamount(struct Register *user)
+{
+    int wdamnt;
+    printf("ENTER THE AMOUNT TO BE WITHDRAW:");
+    scanf("%d",&wdamnt);
+    if(wdamnt>user->balance)
+    {
+        printf("INSUFFICIENNT BALANCE");
+    }
+    else
+    {
+        user->balance-=wdamnt;
+    printf("THE TOTAL AMOUNT AFETR WITHDRAW:RS%.2f",user->balance);
+    }
+}
+int main()
+{
+
+    int choice;
+    FILE *fptr;
+    fptr=fopen("bank.txt","a");
+    do
+    {
+    printf("\n\tBANKING APPLICATION");
+    printf("\n1.REGISTER\n2.LOGIN\n3.EXIT");
+    printf("\nplease enter the choice:");
+    scanf("%d",&choice);
+    switch (choice)
+    {
+    case 1:
+        member();
+        break;
+    case 2:
+         login();
+        break;
+
+    case 3:
+        printf("exiting the application");
+    }
+    }while (choice !=3);
+
+}
