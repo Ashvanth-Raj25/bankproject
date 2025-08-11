@@ -149,6 +149,3 @@ int main()
     }while (choice !=3);
 
 }
-=======
-
->>>>>>> e355bf60be93b840f18ce4a98d033ead1d75188c
